@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import toast from "react-hot-toast";
+import { useLoginMutation } from "@/redux/features/user/userApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { useNavigate } from "react-router";
+import { tokenDecoded } from "@/utils/tokenDecoded";
+import { setUser } from "@/redux/features/user/userSlice";
 
 interface FormInputs {
   email: string;
@@ -11,9 +18,24 @@ interface FormInputs {
 
 export default function Login() {
   const { register, handleSubmit } = useForm<FormInputs>();
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useAppDispatch();
 
-  const onSubmit = (data: FormInputs) => {
+  const navigate = useNavigate();
+  const onSubmit = async (data: FormInputs) => {
     console.log(data);
+    try {
+      const result = await login(data).unwrap();
+      console.log({ result });
+      if (result?.success) {
+        const user = tokenDecoded(result?.data);
+        dispatch(setUser({ user, token: result?.data }));
+        toast.success(result?.message);
+        navigate("/");
+      }
+    } catch (error: any) {
+      toast.error(error?.message);
+    }
   };
 
   return (
@@ -59,6 +81,7 @@ export default function Login() {
           </div>
 
           <Button
+            disabled={isLoading}
             type="submit"
             className="w-full bg-white text-orange-600 hover:bg-white/90 text-sm sm:text-base py-3 mt-3"
           >

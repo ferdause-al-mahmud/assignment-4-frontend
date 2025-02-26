@@ -60,7 +60,7 @@ const Navbar = () => {
 
                 <div className="hidden sm:flex">
                   <Link
-                    to={"/register"}
+                    to={"/signup"}
                     className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-[#ff5733]"
                   >
                     Register

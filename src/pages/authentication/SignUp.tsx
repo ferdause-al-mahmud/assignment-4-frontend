@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRegisterMutation } from "@/redux/features/user/userApi";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 interface FormInputs {
   name: string;
@@ -11,9 +16,22 @@ interface FormInputs {
 
 export default function SignUp() {
   const { register, handleSubmit } = useForm<FormInputs>();
+  const [registerUser, { isLoading }] = useRegisterMutation();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: FormInputs) => {
+  const onSubmit = async (data: FormInputs) => {
     console.log(data);
+    try {
+      const result = await registerUser(data).unwrap();
+      console.log(result);
+      if (result?.success) {
+        toast.success(result?.message);
+        navigate("/login");
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -69,6 +87,7 @@ export default function SignUp() {
           </div>
 
           <Button
+            disabled={isLoading}
             type="submit"
             className="w-full bg-white text-indigo-600 hover:bg-white/90 text-sm sm:text-base py-3"
           >
