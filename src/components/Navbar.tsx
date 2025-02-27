@@ -1,4 +1,7 @@
+import { logout, selectUser } from "@/redux/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link, NavLink, useLocation } from "react-router";
 
 const navLinks = [
@@ -11,7 +14,12 @@ const navLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("User logged out");
+  };
   return (
     <header className="bg-white w-full   shadow-md fixed top-0 z-10">
       <div className="  px-4 lg:px-0 relative container mx-auto ">
@@ -49,7 +57,26 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            {
+            {user ? (
+              <div className="sm:flex sm:gap-4">
+                <Link
+                  className="rounded-md bg-[#ff5733] px-5 py-2.5 text-sm font-medium text-white shadow"
+                  to={"/dashboard"}
+                >
+                  DashBoard
+                </Link>
+
+                <div className="hidden sm:flex">
+                  <button
+                    onClick={handleLogout}
+                    className="rounded-md cursor-pointer
+                                            bg-gray-100 px-5 py-2.5 text-sm font-medium text-[#ff5733]"
+                  >
+                    logout
+                  </button>
+                </div>
+              </div>
+            ) : (
               <div className="sm:flex sm:gap-4">
                 <Link
                   className="rounded-md bg-[#ff5733] px-5 py-2.5 text-sm font-medium text-white shadow"
@@ -67,7 +94,7 @@ const Navbar = () => {
                   </Link>
                 </div>
               </div>
-            }
+            )}
 
             <div className="block  lg:hidden">
               <button

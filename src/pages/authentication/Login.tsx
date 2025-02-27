@@ -23,10 +23,8 @@ export default function Login() {
 
   const navigate = useNavigate();
   const onSubmit = async (data: FormInputs) => {
-    console.log(data);
     try {
       const result = await login(data).unwrap();
-      console.log({ result });
       if (result?.success) {
         const user = tokenDecoded(result?.data);
         dispatch(setUser({ user, token: result?.data }));

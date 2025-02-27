@@ -9,9 +9,10 @@ import {
     fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { logout, setUser } from "../features/user/userSlice";
+const baseUrl = import.meta.env.VITE_API_URL
 
 const baseApiQuery = fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
+    baseUrl: baseUrl,
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
@@ -33,7 +34,7 @@ const customBaseApiQuery = async (
         result?.error?.status === 401 ||
         (result?.error?.data as { message?: string })?.message === "jwt expired"
     ) {
-        const res = await fetch("http://localhost:5000/api/auth/refresh-token", {
+        const res = await fetch(`${baseUrl}/auth/refresh-token`, {
             method: "POST",
             credentials: "include",
         });
@@ -60,6 +61,6 @@ const customBaseApiQuery = async (
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: customBaseApiQuery,
-    tagTypes: ["Car"],
+    tagTypes: ["Bike"],
     endpoints: () => ({}),
 });

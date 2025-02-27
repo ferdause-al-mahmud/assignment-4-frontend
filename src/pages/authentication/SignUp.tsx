@@ -20,10 +20,8 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormInputs) => {
-    console.log(data);
     try {
       const result = await registerUser(data).unwrap();
-      console.log(result);
       if (result?.success) {
         toast.success(result?.message);
         navigate("/login");
