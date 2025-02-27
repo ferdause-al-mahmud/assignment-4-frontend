@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <footer className="w-full">
       {/* Discount section */}
-      <div className="w-full bg-purple-400 py-12 px-4">
+      <div className="w-full  bg-gray-100 py-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">
             Get discounts instantly

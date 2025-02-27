@@ -2,23 +2,24 @@ import { logout, selectUser } from "@/redux/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 
 const navLinks = [
   { path: "/", name: "Home" },
   { path: "/all-product", name: "All Products" },
   { path: "/about", name: "About Us" },
-  { path: "/contact", name: "Contact Us" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logout());
     toast.success("User logged out");
+    navigate("/login");
   };
   return (
     <header className="bg-white w-full   shadow-md fixed top-0 z-10">

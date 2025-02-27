@@ -3,6 +3,9 @@ import App from "../App";
 import Home from "@/pages/home/Home";
 import Login from "@/pages/authentication/Login";
 import SignUp from "@/pages/authentication/SignUp";
+import BikeDetails from "@/components/cards/BikeDetails";
+import AllProducts from "@/pages/all-products/AllProducts";
+import AboutUs from "@/pages/about-us/AboutUs";
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +23,18 @@ const routes = createBrowserRouter([
       {
         path: "signup",
         element: <SignUp />,
+      },
+      {
+        path: "/all-product",
+        element: <AllProducts />,
+      },
+      {
+        path: "/products/:productId",
+        element: <BikeDetails />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs />,
       },
     ],
   },

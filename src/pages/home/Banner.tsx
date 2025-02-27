@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import bike1 from "../assets/bike1.jpg";
-import bike2 from "../assets/bike2.jpg";
+import bike1 from "../../assets/bike1.jpg";
+import bike2 from "../../assets/bike2.jpg";
 
 const bannerContent = [
   {
