@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { IUser } from "@/types/user.type";
 import { baseApi } from "../../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
@@ -28,7 +29,7 @@ const userApi = baseApi.injectEndpoints({
       query: () => "/admin",
     }),
     updateUser: builder.mutation({
-      query: (obj: { body: Partial<TUser>; id: string }) => ({
+      query: (obj: { body: Partial<IUser>; id: string }) => ({
         url: `/auth/user/${obj.id}`,
         method: "PUT",
         body: obj.body,

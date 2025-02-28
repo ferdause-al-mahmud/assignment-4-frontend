@@ -28,7 +28,7 @@ const Sidebar = ({
         title={`${user?.role === "admin" ? "Admin Panel" : "Customer Panel"}`}
       >
         <div className="mt-4 pt-5 md:pt-6 lg:pt-8 flex flex-col border-t border-gray-700 gap-3 relative">
-          {sidebarLinks.map((menu, i) => (
+          {sidebarLinks.map((menu: any, i: number) => (
             <Link
               to={menu.link}
               key={i}
