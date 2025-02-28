@@ -18,10 +18,44 @@ const userApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    getAllUser: builder.query({
+      query: () => "/auth/all-user",
+      transformResponse: (res: any) => {
+        return res?.data;
+      },
+    }),
+    getAdminData: builder.query({
+      query: () => "/admin",
+    }),
+    updateUser: builder.mutation({
+      query: (obj: { body: Partial<TUser>; id: string }) => ({
+        url: `/auth/user/${obj.id}`,
+        method: "PUT",
+        body: obj.body,
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (obj: { body: any; id: string }) => ({
+        url: `/auth/user/change-password/${obj.id}`,
+        method: "PUT",
+        body: obj.body,
+      }),
+    }),
+    getMe: builder.query({
+      query: (id: string) => `/auth/user/getCurrentUser/${id}`,
+      transformResponse: (res: any) => {
+        return res?.data;
+      },
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
-  useRegisterMutation
+  useRegisterMutation,
+  useGetAdminDataQuery,
+  useGetAllUserQuery,
+  useUpdateUserMutation,
+  useGetMeQuery,
+  useChangePasswordMutation,
 } = userApi;

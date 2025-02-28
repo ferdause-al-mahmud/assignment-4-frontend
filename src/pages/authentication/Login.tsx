@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import toast from "react-hot-toast";
 import { useLoginMutation } from "@/redux/features/user/userApi";
 import { useAppDispatch } from "@/redux/hooks";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { tokenDecoded } from "@/utils/tokenDecoded";
 import { setUser } from "@/redux/features/user/userSlice";
 
@@ -20,8 +20,10 @@ export default function Login() {
   const { register, handleSubmit } = useForm<FormInputs>();
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const navigate = useNavigate();
+  const path = location?.state?.from || "/";
   const onSubmit = async (data: FormInputs) => {
     try {
       const result = await login(data).unwrap();
@@ -29,7 +31,7 @@ export default function Login() {
         const user = tokenDecoded(result?.data);
         dispatch(setUser({ user, token: result?.data }));
         toast.success(result?.message);
-        navigate("/");
+        navigate(path);
       }
     } catch (error: any) {
       toast.error(error?.message);
